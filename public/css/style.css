@@ -1,0 +1,26 @@
+body {
+  letter-spacing: -0.03em;
+  background-color: #000217;
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+  color: white;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+}
+
+.bg-grey {
+  background-color: #090a1c;
+}
+
+.blue-gradiant-button {
+  color: white;
+  background: linear-gradient(270deg, #1877fd 0%, #23b0fe 100%);
+  border-radius: 10px;
+  padding: 10px 0px;
+  gap: 10px;
+  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
