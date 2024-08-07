@@ -137,6 +137,7 @@ a {
   justify-content: space-between;
   align-items: center;
   border-radius: 15px;
+  padding: 10px;
 }
 .section-a-coins {
   display: flex;
@@ -321,7 +322,7 @@ a {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 10px 0;
+  padding: 10px;
   gap: 10px;
   background-color: #000217;
   border-radius: 10px;
