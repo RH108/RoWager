@@ -44,7 +44,7 @@ async function main() {
   const client = new issuer.Client({
     client_id: clientId,
     client_secret: clientSecret,
-    redirect_uris: [`http://localhost:3000/oauth/callback`],
+    redirect_uris: [`https://rowager-3tp8.onrender.com`],
     response_types: ["code"],
     scope: "openid profile",
     id_token_signed_response_alg: "ES256",
@@ -104,7 +104,7 @@ async function main() {
     try {
       const params = client.callbackParams(req);
       const tokenSet = await client.callback(
-        `http://localhost:3000/oauth/callback`,
+        `https://rowager-3tp8.onrender.com`,
         params,
         {
           state: req.signedCookies.state,
