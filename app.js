@@ -44,7 +44,7 @@ async function main() {
   const client = new issuer.Client({
     client_id: clientId,
     client_secret: clientSecret,
-    redirect_uris: [`https://rowager-3tp8.onrender.com/rowager`],
+    redirect_uris: [`https://rowager-3tp8.onrender.com/oauth/callback`], // Ensure this matches your registered redirect URI
     response_types: ["code"],
     scope: "openid profile",
     id_token_signed_response_alg: "ES256",
@@ -66,6 +66,7 @@ async function main() {
         }
       }
 
+      req.tokenSet = tokenSet; // Add tokenSet to req object for easier access
       next();
     } else {
       res.redirect("/login");
@@ -94,7 +95,11 @@ async function main() {
 
   app.get("/logout", async (req, res) => {
     if (req.signedCookies.tokenSet) {
-      client.revoke(req.signedCookies.tokenSet.refresh_token);
+      try {
+        await client.revoke(req.signedCookies.tokenSet.refresh_token);
+      } catch (error) {
+        console.error('Error revoking token:', error);
+      }
     }
 
     res.clearCookie("tokenSet").redirect("/");
@@ -104,7 +109,7 @@ async function main() {
     try {
       const params = client.callbackParams(req);
       const tokenSet = await client.callback(
-        `https://rowager-3tp8.onrender.com/rowager`,
+        `https://rowager-3tp8.onrender.com/oauth/callback`,
         params,
         {
           state: req.signedCookies.state,
@@ -123,13 +128,13 @@ async function main() {
     }
   });
 
-  var placeHolder
+  let placeHolder;
 
   app.get("/rowager", checkLoggedIn, (req, res) => {
-    const tokenSet = new TokenSet(req.signedCookies.tokenSet);
+    const tokenSet = req.tokenSet;
 
     io.emit('login_client', tokenSet.claims());
-    placeHolder = tokenSet.claims()
+    placeHolder = tokenSet.claims();
     console.log('Emitting login_client event with token:', tokenSet.claims());
 
     res.render("home.ejs");
@@ -144,7 +149,7 @@ async function main() {
     });
 
     socket.on('login_request', () => {
-      socket.emit('login_return', placeHolder)
+      socket.emit('login_return', placeHolder);
     });
 
     socket.on('disconnect', () => {
