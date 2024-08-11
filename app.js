@@ -11,8 +11,8 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
 
-const clientId = "5139357317539084266";
-const clientSecret = "RBX-643fLjgdskCes590j8qzxUKIFPNHdK6HI7OLDJ2IB0ywYBbdP2VN3HLKgd_a3o4l";
+const clientId = process.env.CLIENTID;
+const clientSecret = process.env.CLIENTSECRET;
 const cookieSecret = process.env.COOKIE_SECRET || generators.random();
 const secureCookieConfig = {
   secure: false,
