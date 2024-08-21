@@ -44,7 +44,7 @@ async function main() {
   const client = new issuer.Client({
     client_id: clientId,
     client_secret: clientSecret,
-    redirect_uris: [`https://rowager-3tp8.onrender.com/oauth/callback`], // Ensure this matches your registered redirect URI
+    redirect_uris: [`https://rowager-3tp8.onrender.com/oauth/callback`],
     response_types: ["code"],
     scope: "openid profile",
     id_token_signed_response_alg: "ES256",
@@ -66,7 +66,7 @@ async function main() {
         }
       }
 
-      req.tokenSet = tokenSet; // Add tokenSet to req object for easier access
+      req.tokenSet = tokenSet;
       next();
     } else {
       res.redirect("/login");
